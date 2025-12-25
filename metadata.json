@@ -1,5 +1,8 @@
-
 {
-  "name": "SmartLab Management System",
-  "description": "An enterprise-grade, high-fidelity laboratory resource management system with advanced scheduling and personnel logistics."
+  "name": "SmartLab - Enterprise Lab Management System",
+  "description": "A comprehensive lab management platform featuring role-based access control, equipment tracking, lab scheduling, and multi-media asset management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
 }

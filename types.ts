@@ -11,6 +11,11 @@ export enum UserStatus {
   SUSPENDED = 'Suspended'
 }
 
+export enum ScheduleType {
+  OPERATION = 'Operation',
+  MAINTENANCE = 'Maintenance'
+}
+
 export interface User {
   id: string;
   firstName: string;
@@ -25,26 +30,21 @@ export interface User {
   role: UserRole;
 }
 
-export interface Group {
-  id: string;
-  name: string;
-  userIds: string[];
-}
-
 export interface Lab {
   id: string;
   name: string;
   description: string;
   location: string;
   features: string[];
-  media: LabMedia[];
+  media: MediaItem[];
 }
 
-export interface LabMedia {
+export interface MediaItem {
   id: string;
-  type: 'image' | 'video';
   url: string;
+  type: 'image' | 'video';
   name: string;
+  uploadProgress: number; // 0-100
 }
 
 export interface Equipment {
@@ -57,25 +57,23 @@ export interface Equipment {
   invoiceNumber: string;
   lastCalibrationDate: string;
   nextCalibrationDate: string;
-  calibrationFrequency: 'Weekly' | 'Monthly' | 'Quarterly' | 'Yearly';
-}
-
-export interface Schedule {
-  id: string;
-  type: 'Operation' | 'Maintenance';
-  labId: string;
-  start: string;
-  end: string;
+  calibrationFrequency: string;
 }
 
 export interface Holiday {
   id: string;
   name: string;
   date: string;
-  year: number;
+  type: 'Public' | 'Local';
 }
 
-export interface MachineAllowance {
+export interface Group {
+  id: string;
+  name: string;
+  userIds: string[];
+}
+
+export interface Allowance {
   id: string;
   labId: string;
   machineId: string;

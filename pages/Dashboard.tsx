@@ -1,201 +1,129 @@
 
-import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { FlaskConical, Users, ShieldCheck, Cpu, TrendingUp, Zap, Server, ShieldAlert } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Users, FlaskConical, AlertTriangle, ChevronRight, ShieldCheck, Activity, Clock
+} from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-const stats = [
-  { label: 'Active Facilities', value: '18', trend: '+2', icon: FlaskConical, color: 'bg-blue-600' },
-  { label: 'Auth Personnel', value: '2.4k', trend: '+142', icon: Users, color: 'bg-slate-900' },
-  { label: 'Cloud Node Load', value: '42ms', trend: 'LOW', icon: Cpu, color: 'bg-blue-500' },
-  { label: 'System Uptime', value: '99.9%', trend: 'MAX', icon: ShieldCheck, color: 'bg-slate-800' },
-];
-
-const teamMembers = [
-  { name: 'Usman', role: 'Lead Architect', initial: 'U' },
-  { name: 'Awab', role: 'Backend Engineer', initial: 'A' },
-  { name: 'Lynx', role: 'Security Specialist', initial: 'L' },
-  { name: 'Islam', role: 'UI/UX Designer', initial: 'I' }
-];
-
-const areaData = [
-  { time: '00:00', load: 30 },
-  { time: '04:00', load: 25 },
-  { time: '08:00', load: 60 },
-  { time: '12:00', load: 95 },
-  { time: '16:00', load: 80 },
-  { time: '20:00', load: 45 },
-  { time: '23:59', load: 35 },
+const dataUsage = [
+  { name: 'Mon', usage: 45 },
+  { name: 'Tue', usage: 52 },
+  { name: 'Wed', usage: 38 },
+  { name: 'Thu', usage: 65 },
+  { name: 'Fri', usage: 48 },
+  { name: 'Sat', usage: 20 },
+  { name: 'Sun', usage: 15 },
 ];
 
 const Dashboard: React.FC = () => {
+  const [counts, setCounts] = useState({ users: 0, labs: 0, equipment: 0, maintenance: 0 });
+
+  useEffect(() => {
+    const users = JSON.parse(localStorage.getItem('sl_users') || '[]');
+    const labs = JSON.parse(localStorage.getItem('sl_labs') || '[]');
+    const equip = JSON.parse(localStorage.getItem('sl_equipment') || '[]');
+    const bookings = JSON.parse(localStorage.getItem('sl_bookings') || '[]');
+    
+    setCounts({
+      users: users.length,
+      labs: labs.length,
+      equipment: equip.length,
+      maintenance: bookings.filter((b: any) => b.type === 'Maintenance').length
+    });
+  }, []);
+
+  const stats = [
+    { label: 'Total Users', value: counts.users, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
+    { label: 'Lab Rooms', value: counts.labs, icon: FlaskConical, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+    { label: 'Equipment', value: counts.equipment, icon: ShieldCheck, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: 'Maintenance', value: counts.maintenance, icon: AlertTriangle, color: 'text-amber-600', bg: 'bg-amber-50' },
+  ];
+
   return (
-    <div className="space-y-12 animate-in fade-in duration-1000">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
-        <div className="space-y-3">
-          <div className="flex items-center space-x-3 text-blue-600 font-black text-[11px] uppercase tracking-[0.4em]">
-            <Zap size={16} fill="currentColor" />
-            <span>Real-time Analytics Engine</span>
-          </div>
-          <h2 className="text-6xl font-black text-slate-900 tracking-tighter leading-none">Control Center</h2>
-          <p className="text-slate-500 font-medium max-w-xl text-lg">Overseeing SmartLab high-performance research nodes and secure workforce clusters.</p>
+    <div className="space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Main Dashboard</h2>
+          <p className="text-sm md:text-base text-slate-500 font-medium">An overview of lab status and users.</p>
         </div>
-        
-        <div className="flex bg-slate-50 border border-slate-100 rounded-3xl p-1.5 shadow-sm">
-          <div className="px-8 py-4 border-r border-slate-200 flex flex-col items-center">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Efficiency</span>
-            <span className="text-2xl font-black text-slate-900">98.4%</span>
-          </div>
-          <div className="px-8 py-4 flex flex-col items-center">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Network</span>
-            <span className="text-2xl font-black text-blue-600">STABLE</span>
-          </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
+           <button className="flex-1 md:flex-none px-4 md:px-6 py-3 text-xs md:text-sm font-bold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">Report</button>
+           <button className="flex-1 md:flex-none px-4 md:px-6 py-3 text-xs md:text-sm font-bold text-white bg-blue-600 rounded-xl shadow-md hover:bg-blue-700 transition-all">New Booking</button>
         </div>
       </div>
 
-      {/* Stats Cluster */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {stats.map((stat, i) => (
-          <div key={i} className="bg-white border border-slate-100 rounded-[2.5rem] p-8 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-700 group relative overflow-hidden">
-            <div className="absolute -right-4 -top-4 w-32 h-32 bg-blue-50 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="flex justify-between items-start mb-8 relative z-10">
-              <div className={`p-5 rounded-3xl ${stat.color} text-white shadow-xl`}>
-                <stat.icon size={28} />
-              </div>
-              <div className="flex items-center space-x-1.5 text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
-                <TrendingUp size={12} />
-                <span>{stat.trend}</span>
-              </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        {stats.map((stat, idx) => (
+          <div key={idx} className="bg-white p-5 md:p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4`}>
+              <stat.icon size={20} className="md:w-6 md:h-6" />
             </div>
-            <div className="relative z-10">
-              <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">{stat.label}</p>
-              <h3 className="text-5xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+            <div>
+              <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{stat.label}</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 leading-none">{stat.value}</h3>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Main Analytics Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Utilization Matrix */}
-        <div className="lg:col-span-2 bg-white border border-slate-100 rounded-[3rem] p-12 relative overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h3 className="text-3xl font-black text-slate-900 tracking-tight">Throughput Matrix</h3>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">Global Resource Allocation</p>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></div>
-              <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Live Sync</span>
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="lg:col-span-2 bg-white p-5 md:p-8 rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+          <div className="mb-6 md:mb-8">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900">Lab Usage History</h3>
+            <p className="text-xs md:text-sm text-slate-400">Weekly activity summary</p>
           </div>
-          
-          <div className="h-[400px]">
+          <div className="h-[200px] sm:h-[250px] md:h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={areaData}>
+              <AreaChart data={dataUsage}>
                 <defs>
-                  <linearGradient id="primaryGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#2563eb" stopOpacity={0.15}/>
+                  <linearGradient id="colorUsage" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1}/>
                     <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="rgba(0,0,0,0.04)" />
-                <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: '900'}} dy={15} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: '900'}} />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#fff', borderRadius: '20px', border: '1px solid #f1f5f9', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ color: '#0f172a', fontWeight: '900', textTransform: 'uppercase', fontSize: '10px' }}
-                />
-                <Area type="monotone" dataKey="load" stroke="#2563eb" strokeWidth={5} fillOpacity={1} fill="url(#primaryGrad)" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10}} />
+                <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }} />
+                <Area type="monotone" dataKey="usage" stroke="#2563eb" strokeWidth={3} fillOpacity={1} fill="url(#colorUsage)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Operational Teams Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-[3rem] p-10 flex flex-col relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 blur-[60px]"></div>
-          <div className="flex items-center justify-between mb-10">
-            <h3 className="text-2xl font-black text-white tracking-tight">Core Units</h3>
-            <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] px-3 py-1 bg-blue-400/10 rounded-full border border-blue-400/20">Operational</span>
-          </div>
-          
-          <div className="space-y-6 flex-1">
-            {teamMembers.map((member, i) => (
-              <div key={i} className="flex items-center justify-between group cursor-default">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white font-black text-lg group-hover:bg-blue-600 group-hover:border-blue-500 transition-all duration-500">
-                    {member.initial}
-                  </div>
-                  <div className="space-y-0.5">
-                    <p className="text-base font-black text-white tracking-tight uppercase group-hover:text-blue-400 transition-colors">{member.name}</p>
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">{member.role}</p>
+        <div className="space-y-6">
+          <div className="bg-zinc-950 p-6 md:p-8 rounded-[32px] shadow-lg text-white">
+            <h3 className="text-lg md:text-xl font-bold mb-6 flex items-center gap-2">
+              <Activity size={20} className="text-blue-500" /> Recent Updates
+            </h3>
+            <div className="space-y-4">
+              {[
+                { text: 'Lab 1 Temp: 22°C', type: 'Status', color: 'text-emerald-400' },
+                { text: 'System Running Well', type: 'Stats', color: 'text-blue-400' },
+                { text: '3 New Member Requests', type: 'Alert', color: 'text-amber-400' },
+              ].map((alert, idx) => (
+                <div key={idx} className="p-3 md:p-4 bg-white/5 rounded-2xl border border-white/10 flex justify-between items-center">
+                  <div>
+                    <p className="text-[11px] md:text-xs font-bold text-white mb-1">{alert.text}</p>
+                    <span className={`text-[9px] md:text-[10px] font-bold uppercase ${alert.color}`}>{alert.type}</span>
                   </div>
                 </div>
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-12 pt-8 border-t border-white/5">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Global Status</span>
-              <span className="text-[10px] font-black text-green-400 uppercase">Synchronized</span>
+              ))}
             </div>
-            <button className="w-full py-5 bg-white text-slate-950 font-black uppercase tracking-widest text-[11px] rounded-2xl hover:bg-blue-600 hover:text-white transition-all shadow-xl active:scale-95">
-              Protocol Governance
+            <button className="w-full mt-6 md:mt-8 py-3 bg-blue-600 text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-all text-xs md:text-sm">
+              View All
+              <ChevronRight size={16} />
             </button>
           </div>
-        </div>
-      </div>
 
-      {/* Transaction Log */}
-      <div className="bg-white border border-slate-100 rounded-[3rem] overflow-hidden shadow-sm">
-        <div className="p-10 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
-          <div>
-            <h3 className="text-2xl font-black text-slate-900 tracking-tight">Ledger Journal</h3>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1.5">Secure Transaction Audit</p>
+          <div className="bg-white p-5 md:p-6 rounded-[32px] border border-slate-100 shadow-sm flex items-center gap-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+               <Clock size={20} className="md:w-6 md:h-6" />
+            </div>
+            <div>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Current Time</p>
+               <p className="text-lg md:text-xl font-bold text-slate-900">08:42:15 AM</p>
+            </div>
           </div>
-          <button className="px-6 py-2.5 text-[10px] font-black text-blue-600 bg-white border border-blue-100 rounded-xl uppercase tracking-widest hover:bg-blue-50 transition-all shadow-sm">
-            Export Audit
-          </button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-slate-50/50">
-                <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Personnel Instance</th>
-                <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Group</th>
-                <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Directive</th>
-                <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Verification</th>
-                <th className="px-10 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Time-Hash</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {[
-                { name: 'USMAN ALI', group: 'CORE_ADMIN', dir: 'REGISTRY_MOD', status: 'VERIFIED', time: '12:04:22' },
-                { name: 'SARAH CHEN', group: 'RE_UNIT_01', dir: 'NODE_RESERVE', status: 'VERIFIED', time: '11:58:14' },
-                { name: 'AWAB AHMED', group: 'CONFIG_X', dir: 'PROTOCOL_UPD', status: 'VERIFIED', time: '11:42:05' },
-              ].map((row, i) => (
-                <tr key={i} className="hover:bg-slate-50 transition-colors cursor-default group">
-                  <td className="px-10 py-7">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[11px] font-black text-blue-600">
-                        {row.name.split(' ').map(n => n[0]).join('')}
-                      </div>
-                      <span className="text-sm font-black text-slate-700 group-hover:text-slate-950 transition-colors uppercase tracking-tight">{row.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-7 text-xs font-bold text-slate-400">{row.group}</td>
-                  <td className="px-10 py-7 text-xs font-black text-slate-500 tracking-tight uppercase">{row.dir}</td>
-                  <td className="px-10 py-7">
-                    <span className="text-[9px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-lg tracking-widest">{row.status}</span>
-                  </td>
-                  <td className="px-10 py-7 text-xs font-bold text-slate-400 font-mono">{row.time}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
