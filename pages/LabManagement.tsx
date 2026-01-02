@@ -89,7 +89,6 @@ const LabManagement: React.FC<LabManagementProps> = ({ role }) => {
 
   return (
     <div className="space-y-6 md:space-y-8 animate-in fade-in duration-500">
-      {/* Scrollable Tabs */}
       <div className="flex border-b border-slate-200 gap-6 md:gap-8 mb-4 overflow-x-auto no-scrollbar scroll-smooth">
         {[
           { id: 'details', label: 'Labs', icon: FlaskConical },
@@ -204,8 +203,8 @@ const LabManagement: React.FC<LabManagementProps> = ({ role }) => {
 
       {/* Add Lab Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-lg rounded-[28px] md:rounded-4xl shadow-2xl overflow-y-auto max-h-[90vh] p-6 md:p-10 animate-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white/90 backdrop-blur-xl w-full max-w-lg rounded-[32px] shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-white/20 overflow-y-auto max-h-[90vh] p-6 md:p-10 animate-in zoom-in-95 duration-300">
             <div className="flex justify-between items-center mb-6 md:mb-10">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900">{t.labManagement.addNewLab}</h2>
               <button onClick={() => setModalOpen(false)} className="p-2 bg-slate-50 text-slate-400 hover:text-slate-900 rounded-xl transition-all"><X size={20} /></button>
@@ -265,8 +264,8 @@ const LabManagement: React.FC<LabManagementProps> = ({ role }) => {
 
       {/* Add Equipment Modal */}
       {isEqModalOpen && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-lg rounded-[28px] md:rounded-4xl shadow-2xl overflow-y-auto max-h-[90vh] p-6 md:p-10 animate-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6 bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-white/90 backdrop-blur-xl w-full max-w-lg rounded-[32px] shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] border border-white/20 overflow-y-auto max-h-[90vh] p-6 md:p-10 animate-in zoom-in-95 duration-300">
             <div className="flex justify-between items-center mb-6 md:mb-10">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900">Add Equipment</h2>
               <button onClick={() => setEqModalOpen(false)} className="p-2 bg-slate-50 text-slate-400 hover:text-slate-900 rounded-xl transition-all"><X size={20} /></button>

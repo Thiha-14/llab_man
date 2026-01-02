@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { useAuth } from '@/app/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,10 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
     const { user, handleLogout } = useAuth();
     const router = useRouter();
+
+    useEffect(() => {
+        router.prefetch('/login');
+    }, [router]);
 
     if (!user) return null;
 

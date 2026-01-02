@@ -9,6 +9,11 @@ export default function RootPage() {
     const router = useRouter();
 
     useEffect(() => {
+        router.prefetch('/dashboard');
+        router.prefetch('/login');
+    }, [router]);
+
+    useEffect(() => {
         if (!loading) {
             if (user) {
                 router.push('/dashboard');

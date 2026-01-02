@@ -51,6 +51,10 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
     setShowSignOutConfirm(true);
   };
 
+  const handleNavigation = () => {
+    closeSidebar();
+  };
+
   const handleConfirmSignOut = () => {
     setShowSignOutConfirm(false);
     onLogout();
@@ -58,7 +62,6 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
 
   return (
     <div className="min-h-screen flex bg-slate-50 relative">
-      {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm transition-opacity"
@@ -66,12 +69,11 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
         />
       )}
 
-      {/* Sidebar - Deep Black */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-zinc-950 text-white border-r border-zinc-900 transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0`}>
         <div className="flex flex-col h-full">
           <div className="p-8 flex items-center justify-between">
             <Link href="/dashboard" className="flex items-center gap-4 group">
-              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/30 transition-all">SL</div>
+              <img src="/sm.png" alt="SmartLab" className="w-10 h-10 rounded-xl shadow-lg group-hover:scale-105 transition-all" />
               <span className="text-xl font-bold tracking-tight group-hover:text-blue-400 transition-colors">SmartLab</span>
             </Link>
             <button onClick={closeSidebar} className="md:hidden p-2 text-zinc-500 hover:text-white transition-all">
@@ -84,7 +86,8 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
               <Link
                 key={item.path}
                 href={item.path}
-                onClick={closeSidebar}
+                onClick={handleNavigation}
+                prefetch={true}
                 className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-200 group ${isActive(item.path)
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
@@ -233,4 +236,4 @@ const Layout: React.FC<LayoutProps> = ({ user, onLogout, children }) => {
   );
 };
 
-export default Layout;
+export default React.memo(Layout);

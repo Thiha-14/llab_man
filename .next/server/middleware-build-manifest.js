@@ -1,18 +1,24 @@
 globalThis.__BUILD_MANIFEST = {
-  "polyfillFiles": [
-    "static/chunks/polyfills.js"
-  ],
-  "devFiles": [],
-  "ampDevFiles": [],
-  "lowPriorityFiles": [],
-  "rootMainFiles": [
-    "static/chunks/webpack.js",
-    "static/chunks/main-app.js"
-  ],
-  "rootMainFilesTree": {},
   "pages": {
     "/_app": []
   },
+  "devFiles": [],
+  "ampDevFiles": [],
+  "polyfillFiles": [
+    "static/chunks/4a39a_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_1e4da309._.js",
+    "static/chunks/4a39a_next_dist_compiled_react-dom_df3bb9e0._.js",
+    "static/chunks/4a39a_next_dist_compiled_next-devtools_index_34f609ad.js",
+    "static/chunks/4a39a_next_dist_compiled_62865149._.js",
+    "static/chunks/4a39a_next_dist_client_4a6b2ea2._.js",
+    "static/chunks/4a39a_next_dist_6648bf8a._.js",
+    "static/chunks/4a39a_@swc_helpers_cjs_f721df21._.js",
+    "static/chunks/Desktop_llab_man_a0ff3932._.js",
+    "static/chunks/turbopack-Desktop_llab_man_62677ae0._.js"
+  ],
   "ampFirstPages": []
 };
 globalThis.__BUILD_MANIFEST.lowPriorityFiles = [

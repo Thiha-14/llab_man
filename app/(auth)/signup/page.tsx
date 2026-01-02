@@ -1,7 +1,11 @@
 'use client';
 
-import Signup from '@/pages/Signup';
+import dynamic from 'next/dynamic';
+
+const Auth = dynamic(() => import('@/pages/auth'), {
+    ssr: false
+});
 
 export default function SignupPage() {
-    return <Signup />;
+    return <Auth />;
 }

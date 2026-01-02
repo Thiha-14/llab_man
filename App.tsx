@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Signup from './pages/auth';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import LabManagement from './pages/LabManagement';

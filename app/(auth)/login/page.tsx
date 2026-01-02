@@ -1,9 +1,11 @@
 'use client';
 
-import Login from '@/pages/Login';
-import { useAuth } from '@/app/AuthContext';
+import dynamic from 'next/dynamic';
+
+const Auth = dynamic(() => import('@/pages/auth'), {
+    ssr: false
+});
 
 export default function LoginPage() {
-    const { handleLogin } = useAuth();
-    return <Login onLogin={handleLogin} />;
+    return <Auth />;
 }

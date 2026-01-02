@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
 export type LanguageCode = 'en' | 'ar' | 'fr' | 'zh';
 
@@ -32,7 +32,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        // Load language preference from localStorage
         if (typeof window !== 'undefined') {
             const savedLanguage = localStorage.getItem('sl_language') as LanguageCode | null;
             if (savedLanguage && languages.find(l => l.code === savedLanguage)) {
@@ -47,7 +46,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         }
     }, []);
 
-    const handleSetLanguage = (code: LanguageCode) => {
+    const handleSetLanguage = useCallback((code: LanguageCode) => {
         const lang = languages.find(l => l.code === code);
         if (lang) {
             setCurrentLanguage(lang);
@@ -55,14 +54,20 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             document.documentElement.lang = code;
             document.documentElement.dir = lang.rtl ? 'rtl' : 'ltr';
         }
-    };
+    }, []);
+
+    const value = useMemo(() => ({
+        currentLanguage,
+        setLanguage: handleSetLanguage,
+        languages
+    }), [currentLanguage, handleSetLanguage]);
 
     if (!mounted) {
         return <>{children}</>;
     }
 
     return (
-        <LanguageContext.Provider value={{ currentLanguage, setLanguage: handleSetLanguage, languages }}>
+        <LanguageContext.Provider value={value}>
             {children}
         </LanguageContext.Provider>
     );

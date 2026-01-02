@@ -1,0 +1,22 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/4a39a_next_dist_8adf92de._.js",
+      "static/chunks/Desktop_llab_man_1fa45ece._.js",
+      "static/chunks/Desktop_llab_man_app_globals_1f3af310.css",
+      "static/chunks/Desktop_llab_man_app_layout_tsx_248dd6e5._.js",
+      "static/chunks/4a39a_next_dist_client_components_builtin_global-error_d9ddae34.js",
+      "static/chunks/Desktop_llab_man_78551a46._.js",
+      "static/chunks/Desktop_llab_man_app_page_tsx_d9ddae34._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_1e4da309._.js",
+      "static/chunks/4a39a_next_dist_compiled_react-dom_df3bb9e0._.js",
+      "static/chunks/4a39a_next_dist_compiled_next-devtools_index_34f609ad.js",
+      "static/chunks/4a39a_next_dist_compiled_62865149._.js",
+      "static/chunks/4a39a_next_dist_client_4a6b2ea2._.js",
+      "static/chunks/4a39a_next_dist_6648bf8a._.js",
+      "static/chunks/4a39a_@swc_helpers_cjs_f721df21._.js",
+      "static/chunks/Desktop_llab_man_a0ff3932._.js",
+      "static/chunks/turbopack-Desktop_llab_man_62677ae0._.js"
+    ]
+  }
+}

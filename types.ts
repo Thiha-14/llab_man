@@ -44,7 +44,7 @@ export interface MediaItem {
   url: string;
   type: 'image' | 'video';
   name: string;
-  uploadProgress: number; // 0-100
+  uploadProgress: number;
 }
 
 export interface Equipment {
@@ -64,7 +64,8 @@ export interface Holiday {
   id: string;
   name: string;
   date: string;
-  type: 'Public' | 'Local';
+  type: 'National' | 'Cultural' | 'Weekend' | 'School';
+  description?: string;
 }
 
 export interface Group {

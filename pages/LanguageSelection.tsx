@@ -9,6 +9,10 @@ const LanguageSelection: React.FC = () => {
   const router = useRouter();
   const { setLanguage, languages } = useLanguage();
 
+  React.useEffect(() => {
+    router.prefetch('/login');
+  }, [router]);
+
   const handleLanguageSelect = (langCode: string) => {
     setLanguage(langCode as 'en' | 'ar' | 'fr' | 'zh');
     router.push('/login');
